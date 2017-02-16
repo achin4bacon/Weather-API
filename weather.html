@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WEATHERZ!</title>
+    <style>
+    body{
+        text-align: center;
+        font-family: Courier New, Courier, monospace;
+    };
+        #weather_template {
+            display: none;
+        }
+        #weather_template > div > #goldblum {
+            display: none;
+        }
+    </style>
+    <script
+        src="https://code.jquery.com/jquery-3.1.1.js"
+        integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+        crossorigin="anonymous"
+    ></script>
+    <script>
+        
+        $.get('http://api.geonames.org/weatherJSON?north=41&south=39&east=-104&west=-106&username=ertyseidohl', function(res) {
+            //console.log(res.weatherObservations);
+            var data = res.weatherObservations;
+            console.log(data);
+            $(document).ready(function(){
+                for(var i = 0; i<data.length; i++){
+                    var weather = data[i];
+                    var templateClone = $('#weather_template').children().first().clone();
+                    templateClone.find('.stationName').html("WHAT'S THE WEATHER FOR " + weather.stationName + '?');
+                    templateClone.find('.temperature').html("IT SEEMS TO BE " + weather.temperature + " DEGREES OUTSIDE!!!! ");
+                    templateClone.find('.windSpeed').text("ERMERGERD THE WIND IS DOING " + weather.windSpeed);
+                    templateClone.find('.clouds').text("THEM CLOUDS LOOK LIKE " + weather.clouds);
+                    templateClone.find('.dewPoint').text("I'M NOT SURE WHAT DEW POINT MEANS, BUT IT'S " + weather.dewPoint);
+                    $('#weather_stations').append(templateClone);
+                }
+            })
+        }); 
+        // TODO: using the response data from api.geonames.org, build an HTML page that displays the weather to the user in a "fun" way
+    
+    </script>
+</head>
+<body><img src="jeffy.png" width=85% height=85%>
+    <div id="weather_template">
+        <div>
+            <img src="jeffgoldblum.png" width=50% height=50% id="goldblum">
+            <h1 class ="stationName"></h3>
+            <h4 class="temperature"></h4>
+            <h4 class="windSpeed"></h4>
+            <h4 class ="clouds"></h4>
+            <h4 class ="dewPoint"></h4>
+        </div>
+    </div>
+    <div id="weather_stations"></div>
+    
+</body>
+</html>
